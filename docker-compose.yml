@@ -1,0 +1,19 @@
+services:
+  openvpn-as:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openvpn-as
+    ports:
+      - "${UI_PORT}:943"
+      - "${REDIRECT_PORT}:443"
+      - "${VPN_PORT}:${VPN_PORT}/udp"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/config
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    privileged: true
+    restart: unless-stopped
